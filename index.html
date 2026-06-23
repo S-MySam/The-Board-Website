@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
     /* ══════════════════════════════════════════
@@ -69,8 +69,15 @@
     }
 
     /* Scroll reveal */
-    .reveal{opacity:0;transform:translateY(36px);transition:opacity var(--ts) var(--ease),transform var(--ts) var(--ease)}
+    .reveal{}
     .reveal.vis{opacity:1;transform:none}
+    .no-gsap .reveal,
+    .no-gsap .trust-badge,
+    .no-gsap .hero-line1,
+    .no-gsap .hero-line2,
+    .no-gsap .hero-subtitle,
+    .no-gsap .hero-btns,
+    .no-gsap .hero-scroll{opacity:1!important;transform:none!important;visibility:visible!important}
     .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
     .d4{transition-delay:.32s}.d5{transition-delay:.40s}.d6{transition-delay:.48s}
 
@@ -171,7 +178,6 @@
       padding:7px 18px;border-radius:100px;
       margin-bottom:36px;
       backdrop-filter:blur(8px);
-      opacity:0;animation:slideUp .7s var(--ease) .2s forwards;
     }
     .trust-badge-icon{font-size:.85rem;color:var(--gold)}
 
@@ -179,7 +185,6 @@
     .hero-title{
       font-family:var(--fd);text-transform:uppercase;text-align:center;
       line-height:.9;margin-bottom:28px;
-      opacity:0;animation:slideUp .95s var(--ease) .45s forwards;
     }
     .hero-line1{
       display:block;
@@ -203,13 +208,11 @@
       font-weight:300;font-style:italic;
       color:rgba(255,255,255,.5);letter-spacing:.04em;
       max-width:540px;margin-bottom:52px;
-      opacity:0;animation:slideUp .8s var(--ease) .75s forwards;
     }
 
     /* buttons — rounded-xl (12px) matching TSX component */
     .hero-btns{
       display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;
-      opacity:0;animation:slideUp .8s var(--ease) 1s forwards;
     }
     .btn-hero-primary{
       font-family:var(--fm);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
@@ -234,13 +237,10 @@
     .hero-scroll{
       position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
       z-index:10;display:flex;flex-direction:column;align-items:center;gap:10px;
-      opacity:0;animation:fadeIn 1s var(--ease) 2.2s forwards;
     }
     .hs-lbl{font-family:var(--fm);font-size:.52rem;letter-spacing:.3em;color:rgba(255,255,255,.3);text-transform:uppercase}
     .hs-ln{width:1px;height:42px;background:linear-gradient(to bottom,rgba(255,255,255,.35),transparent);animation:bounce 2.2s ease-in-out infinite}
     @keyframes bounce{0%,100%{transform:scaleY(1);opacity:.4}50%{transform:scaleY(1.25);opacity:.9}}
-    @keyframes slideUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-    @keyframes fadeIn {from{opacity:0}to{opacity:1}}
 
     /* ══════════════════════════════════════════
        CONCEPT
@@ -550,29 +550,102 @@
     /* ══════════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════════ */
+    /* ══════════════════════════════════════════
+       RESPONSIVE — mobile-first
+    ══════════════════════════════════════════ */
+
+    /* ── Tablet large ── */
     @media(max-width:1100px){
       .portholes-grid{grid-template-columns:repeat(3,1fr);gap:28px}
     }
+
+    /* ── Tablet ── */
     @media(max-width:900px){
       .concept-grid,.contact-grid{grid-template-columns:1fr;gap:48px}
-      .loc-grid{grid-template-columns:1fr;gap:48px}
-      #map-wrap{height:340px}
-      .tickets-grid{grid-template-columns:1fr;max-width:480px;margin-left:auto;margin-right:auto}
+      .loc-grid{grid-template-columns:1fr;gap:40px}
+      #map-wrap{height:320px}
+      .tickets-grid{grid-template-columns:1fr;max-width:500px;margin:0 auto}
+      #concept,#billetterie,#localisation,#contact,#equipage{padding:80px 0}
     }
+
+    /* ── Mobile ── */
     @media(max-width:768px){
+      .container{padding:0 20px}
+
+      /* Nav */
       .nav-links{display:none}
       .nav-burger{display:flex}
-      .hero-btns{flex-direction:column;gap:10px}
-      .btn-hero-primary,.btn-hero-secondary{width:100%;text-align:center}
-      .portholes-grid{grid-template-columns:repeat(2,1fr);gap:20px}
-      .container{padding:0 22px}
-      #nav,#nav.scrolled{padding:18px 24px}
-      footer{flex-direction:column;text-align:center;padding:22px 24px}
-    }
-    @media(max-width:480px){
-      .bp-meta{grid-template-columns:repeat(2,1fr)}
+      #nav{padding:16px 20px}
+      #nav.scrolled{padding:14px 20px}
+      .nav-logo{font-size:1.1rem}
+      .nav-logo-img{width:26px;height:26px}
+
+      /* Hero */
+      #hero{min-height:100svh}
+      .hero-line1{letter-spacing:.25em}
+      .hero-line2{letter-spacing:.06em}
+      .hero-btns{flex-direction:column;gap:10px;width:100%;max-width:320px}
+      .btn-hero-primary,.btn-hero-secondary{
+        width:100%;text-align:center;
+        padding:15px 24px;
+      }
+      .hero-content{padding:0 20px}
+      .trust-badge{font-size:.54rem;padding:6px 14px}
+
+      /* Portholes */
+      .portholes-grid{grid-template-columns:repeat(3,1fr);gap:14px}
+      .porthole-win{max-width:110px}
+      .pl-name{font-size:.85rem}
+      .pl-role{font-size:.42rem}
+
+      /* Billetterie */
       .ticket-specs{grid-template-columns:1fr 1fr}
+      .ticket-iata{font-size:1.4rem}
+      .t-price{font-size:1.9rem}
+      .billet-head{margin-bottom:40px}
+
+      /* Concept boarding pass */
+      .bp-iata{font-size:2rem}
+      .bp-meta{grid-template-columns:repeat(2,1fr)}
+
+      /* Contact */
+      .socials{gap:8px}
+      .social-pill{padding:9px 14px;font-size:.58rem}
+
+      /* FlightCard */
+      .fsc-card{border-radius:16px}
+      .fsc-plane-zone{height:140px}
+      .fsc-plane-svg{width:95%}
+
+      /* Order summary */
+      .order-box{padding:22px 20px}
+      .os-line.total .os-amt{font-size:1.3rem}
+
+      /* Loc */
+      .loc-cells{grid-template-columns:1fr 1fr}
+      #map-wrap{height:260px;border-radius:12px}
+
+      footer{flex-direction:column;text-align:center;padding:20px}
+    }
+
+    /* ── Mobile small ── */
+    @media(max-width:480px){
+      .portholes-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+      .porthole-win{max-width:140px}
+      .concept-grid{gap:36px}
       .loc-cells{grid-template-columns:1fr}
+      .ticket-specs{grid-template-columns:1fr 1fr}
+      .fsc-contact{gap:10px}
+      .fsc-contact a{font-size:.55rem;padding:8px 14px}
+      #equipage,#billetterie,#concept,#localisation,#contact{padding:60px 0}
+      .eq-head{margin-bottom:40px}
+      .billet-head{margin-bottom:32px}
+    }
+
+    /* ── Touch devices — increase hit areas ── */
+    @media(hover:none){
+      .qty-btn{width:40px;height:40px}
+      .nav-burger{padding:8px}
     }
 
     /* ══════════════════════════════════════════
@@ -651,7 +724,158 @@
     .fsc-contact a svg{width:13px;height:13px;flex-shrink:0}
 
 
+
+    /* ══════════════════════════════════════════
+       POLISH — transitions, micro-interactions
+    ══════════════════════════════════════════ */
+
+    /* Section dividers */
+    #concept::before, #billetterie::before, #localisation::before {
+      content:''; display:block; height:1px;
+      background:linear-gradient(to right, transparent, var(--linen) 30%, var(--linen) 70%, transparent);
+    }
+
+    /* Cards — lift + glow on hover */
+    .ticket:hover{
+      box-shadow: 0 2px 4px rgba(0,0,0,.04),
+                  0 24px 64px rgba(43,108,192,.18),
+                  0 0 0 1.5px rgba(43,108,192,.15);
+    }
+
+    /* Porthole — concentric radius + ring glow */
+    .porthole-win{transition:box-shadow .32s var(--ease)}
+
+    /* Buttons — text-wrap:balance */
+    .btn-hero-primary, .btn-hero-secondary,
+    .btn-checkout, .btn-send, .btn-dark { text-wrap:balance }
+
+    /* Titles — text-wrap:balance */
+    .sec-title, .hero-title { text-wrap:balance }
+
+    /* Tabular nums on monetary values */
+    .t-price, .os-amt, .os-line.total .os-amt,
+    .ticket-price, .fsc-flight-no { font-variant-numeric:tabular-nums }
+
+    /* Smooth scroll hint */
+    html { scroll-behavior:smooth; scroll-padding-top:72px }
+
+    /* Nav — glass effect quand scrollé */
+    #nav.scrolled {
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    /* Hero scroll indicator — keep bounce */
+    .hs-ln { animation: bounce 2.2s ease-in-out infinite }
+
+    /* Progress bar FlightCard — striped shimmer */
+    .fsc-fill{
+      background: linear-gradient(
+        90deg,
+        var(--tb-blue) 0%,
+        var(--tb-blue-lt) 50%,
+        var(--tb-blue) 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer{
+      0%{background-position:200% 0}
+      100%{background-position:-200% 0}
+    }
+
+    /* Concept boarding pass — hover */
+    .bp { cursor:default }
+
+    /* Hover states — équipage porthole glow bleu */
+    .porthole-card:hover .porthole-win {
+      box-shadow:
+        0 0 0 3px #080E1C,
+        0 0 0 10px rgba(43,108,192,.62),
+        0 0 0 14px #0C1524,
+        0 18px 48px rgba(0,0,0,.72),
+        0 0 52px rgba(43,108,192,.28),
+        inset 0 3px 10px rgba(0,0,0,.9);
+    }
+
+    /* Contact form — focus ring bleu */
+    .fg input:focus, .fg textarea:focus {
+      outline: 2px solid rgba(43,108,192,.35);
+      outline-offset: 2px;
+    }
+
+    /* Map — overlay gradient en bas */
+    #map-wrap::after{
+      content:''; position:absolute;
+      bottom:0; left:0; right:0; height:40px;
+      background:linear-gradient(to top, rgba(240,247,255,.6), transparent);
+      pointer-events:none; z-index:1;
+    }
+    #map-wrap{position:relative}
+
+
+    /* ══ MOBILE FIRST — Ultra visuel ══ */
+    @media(max-width:768px){
+
+      /* Hero — full viewport feel */
+      #hero{ min-height:100svh }
+      .hero-line2{ font-size:clamp(4.2rem,19vw,8rem) }
+      .hero-line1{ font-size:clamp(1.8rem,7vw,4rem) }
+
+      /* Buttons — full width + plus hauts */
+      .btn-hero-primary{
+        padding:17px 24px;
+        box-shadow:0 4px 24px rgba(43,108,192,.45);
+        font-size:.72rem;
+      }
+      .btn-hero-secondary{ padding:16px 24px;font-size:.68rem }
+
+      /* FlightCard — plein écran mobile */
+      .fsc-card{ border-radius:18px }
+      .fsc-plane-zone{ height:200px }
+      .fsc-body{ padding:16px 18px 12px }
+      .fsc-boarding{ padding:14px 18px 18px }
+      .fsc-b-label{ font-size:.6rem }
+      .fsc-al-name{ font-size:1rem }
+
+      /* Concept — meilleur espacement */
+      .concept-body{ font-size:.95rem;line-height:1.8 }
+
+      /* Tickets — full width */
+      .ticket{ border-radius:16px }
+      .ticket-head{ padding:16px 18px }
+      .ticket-body{ padding:16px 18px;gap:14px }
+      .ticket-stub{ padding:14px 18px }
+      .t-price{ font-size:2rem }
+
+      /* Porthole section — plus de hauteur */
+      #equipage{ padding:64px 0 80px }
+      .porthole-win{ max-width:130px }
+      .pl-name{ font-size:.9rem }
+
+      /* Contact form */
+      .fg input,.fg textarea{ font-size:1rem } /* évite zoom auto iOS */
+
+      /* Section eyebrow */
+      .eyebrow{ font-size:.56rem }
+
+      /* Map sur mobile — bien visible */
+      #map-wrap{ height:300px;border-radius:14px }
+
+      /* Footer */
+      footer{ padding:24px 20px }
+      .f-copy{ font-size:.5rem }
+    }
+
+    /* ══ Très petit écran ══ */
+    @media(max-width:380px){
+      .hero-line2{ font-size:clamp(3.8rem,18vw,6rem) }
+      .trust-badge{ font-size:.5rem;padding:5px 12px }
+      .container{ padding:0 16px }
+    }
   </style>
+  <!-- GSAP + ScrollTrigger (greensock/gsap-skills) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 </head>
 <body>
 
@@ -795,48 +1019,15 @@
     <div class="fsc-wrap reveal d1">
       <div class="fsc-card">
 
-        <!-- Avion SVG dans la carte -->
+        <!-- Photo avion (Unsplash, libre de droits) -->
         <div class="fsc-plane-zone">
-          <svg class="fsc-plane-svg" viewBox="0 0 380 140" xmlns="http://www.w3.org/2000/svg" fill="none">
-            <!-- Fuselage -->
-            <ellipse cx="200" cy="70" rx="158" ry="21" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.38)" stroke-width="1.5"/>
-            <!-- Nose -->
-            <path d="M 354,61 Q 380,70 354,79 Z" fill="rgba(255,255,255,0.62)"/>
-            <!-- Fuselage tail taper -->
-            <path d="M 46,66 C 26,68 10,69 0,70 L 0,70 L 0,71 C 10,71 26,72 46,74 Z" fill="rgba(255,255,255,0.12)"/>
-            <!-- Upper wing -->
-            <path d="M 200,50 L 238,4 L 266,50" fill="rgba(255,255,255,0.17)" stroke="rgba(255,255,255,0.28)" stroke-width="1"/>
-            <!-- Lower wing -->
-            <path d="M 200,90 L 238,136 L 266,90" fill="rgba(255,255,255,0.17)" stroke="rgba(255,255,255,0.28)" stroke-width="1"/>
-            <!-- Winglets -->
-            <path d="M 263,51 L 272,43 L 273,51" fill="rgba(255,255,255,0.22)"/>
-            <path d="M 263,89 L 272,97 L 273,89" fill="rgba(255,255,255,0.22)"/>
-            <!-- Engine pod -->
-            <ellipse cx="238" cy="70" rx="28" ry="10" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
-            <circle cx="212" cy="70" r="7" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.30)" stroke-width="1"/>
-            <!-- Tail vertical fin -->
-            <path d="M 58,50 L 42,14 L 78,50" fill="rgba(255,255,255,0.14)"/>
-            <!-- Tail H-stabilizers -->
-            <path d="M 63,50 L 79,33 L 108,50" fill="rgba(255,255,255,0.11)"/>
-            <path d="M 63,90 L 79,107 L 108,90" fill="rgba(255,255,255,0.11)"/>
-            <!-- Blue accent stripe -->
-            <path d="M 50,70 Q 200,65 354,70" stroke="rgba(168,216,255,0.42)" stroke-width="1.5" stroke-linecap="round"/>
-            <!-- Cabin windows (lumineux blancs) -->
-            <rect x="130" y="62" width="9" height="6" rx="2" fill="rgba(255,255,255,.65)"/>
-            <rect x="150" y="62" width="9" height="6" rx="2" fill="rgba(255,255,255,.65)"/>
-            <rect x="170" y="61" width="9" height="6" rx="2" fill="rgba(255,255,255,.60)"/>
-            <rect x="190" y="61" width="9" height="6" rx="2" fill="rgba(255,255,255,.60)"/>
-            <rect x="216" y="61" width="9" height="6" rx="2" fill="rgba(255,255,255,.55)"/>
-            <rect x="236" y="61" width="9" height="6" rx="2" fill="rgba(255,255,255,.50)"/>
-            <rect x="256" y="61" width="9" height="6" rx="2" fill="rgba(255,255,255,.50)"/>
-            <rect x="276" y="61" width="9" height="6" rx="2" fill="rgba(255,255,255,.55)"/>
-            <rect x="296" y="62" width="9" height="6" rx="2" fill="rgba(255,255,255,.60)"/>
-            <rect x="316" y="62" width="9" height="6" rx="2" fill="rgba(255,255,255,.62)"/>
-            <rect x="333" y="63" width="9" height="6" rx="2" fill="rgba(255,255,255,.58)"/>
-            <!-- Contrails derrière -->
-            <path d="M 0,67 C 16,67 32,68 46,68" stroke="rgba(255,255,255,.14)" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M 0,73 C 16,73 32,72 46,72" stroke="rgba(255,255,255,.14)" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
+          <img
+            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=840&h=360&q=82"
+            alt="Aircraft"
+            class="fsc-plane-photo"
+            loading="eager"
+            onerror="this.style.opacity='0'">
+          <div class="fsc-plane-overlay"></div>
         </div>
 
         <!-- Flight info (airlineLogo + airlineName + flightNumber + gate + route + status) -->
@@ -1287,7 +1478,7 @@
 <!-- ══════════════════════════════════════════
      SCRIPTS
 ══════════════════════════════════════════ -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 
 /* ══════════════════════════════════════════════════════════
@@ -1321,16 +1512,19 @@ const CONFIG = {
    INIT — appliquer la config et démarrer tous les modules
 ══════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  applyConfig();
-  initShader();
-  initFlightCard();   /* WebGL2 shader hero — before stars so canvas is lowest layer */
-  initStars();
-  initNav();
-  initReveal();
-  initMap();
-  initBarcode();
-  initForm();
-  updateOrder();
+  const safe = (fn, name) => { try { fn(); } catch(e) { console.warn('[init]', name, e); } };
+
+  safe(applyConfig,     'applyConfig');
+  safe(initShader,      'initShader');
+  safe(initStars,       'initStars');
+  safe(initNav,         'initNav');
+  safe(initHeroGSAP,    'initHeroGSAP');   /* hero entrance GSAP */
+  safe(initReveal,      'initReveal');       /* scroll reveal ScrollTrigger */
+  safe(initFlightCard,  'initFlightCard');
+  safe(updateOrder,     'updateOrder');
+  safe(initMap,         'initMap');
+  safe(initBarcode,     'initBarcode');
+  safe(initForm,        'initForm');
 });
 
 /* ── Apply CONFIG values to DOM ── */
@@ -1422,7 +1616,7 @@ float star(vec2 uv,float grid,float size){
 float meteorite(vec2 uv,float seed){
   float spd  =.25+h1(seed+5.)*.22;
   float phase=fract(u_time*spd+seed);
-  float active=step(.04,phase)*step(phase,.52);
+  float anim=step(.04,phase)*step(phase,.52);
 
   vec2 org =vec2(h1(seed)*.9-.04, h1(seed+1.)*.42+.02);
   float ang=.26+h1(seed+2.)*.32;
@@ -1440,7 +1634,7 @@ float meteorite(vec2 uv,float seed){
   float halo=smoothstep(.020,0.,perp)*.32;
   float headG=exp(-along*26.)*.95;
 
-  return (core*(1.+headG)+halo)*tail*inT*active;
+  return (core*(1.+headG)+halo)*tail*inT*anim;
 }
 
 void main(){
@@ -1537,6 +1731,10 @@ class ShaderHero {
     gl.attachShader(this.prog, mk(gl.VERTEX_SHADER,   VERT_SRC));
     gl.attachShader(this.prog, mk(gl.FRAGMENT_SHADER, FRAG_SRC));
     gl.linkProgram(this.prog);
+    if (!gl.getProgramParameter(this.prog, gl.LINK_STATUS)) {
+      console.error('[ShaderHero link]', gl.getProgramInfoLog(this.prog));
+      this.gl = null; return; /* fallback CSS */
+    }
     gl.useProgram(this.prog);
 
     /* Two-triangle strip covering clip space [-1..1] */
@@ -1617,6 +1815,82 @@ function initShader() {
 }
 
 /* ══════════════════════════════════════════════════════════
+   GSAP — hero entrance + scroll reveal
+   greensock/gsap-skills · gsap-core + gsap-timeline + gsap-scrolltrigger
+══════════════════════════════════════════════════════════ */
+function initHeroGSAP() {
+  /* Fallback si GSAP ne charge pas */
+  if (typeof gsap === 'undefined') {
+    document.body.classList.add('no-gsap');
+    return;
+  }
+
+  /* Safety net : si GSAP crashe, afficher quand même tout après 3s */
+  const showAll = () => {
+    ['.trust-badge','.hero-line1','.hero-line2',
+     '.hero-subtitle','.hero-btns','.hero-scroll'].forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el) { el.style.opacity='1'; el.style.visibility=''; el.style.transform=''; }
+    });
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.style.opacity='1'; el.style.transform='none';
+    });
+  };
+  const safetyTimer = setTimeout(showAll, 2000);
+
+  try {
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── Hero entrance : cacher puis animer séquentiellement ── */
+  const hEls = ['.trust-badge','.hero-line1','.hero-line2',
+                '.hero-subtitle','.hero-btns','.hero-scroll'];
+  hEls.forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) gsap.set(el, { autoAlpha:0, y:28 });
+  });
+
+  /* Timeline hero — power2.out = décel élégante */
+  const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
+  tl.to('.trust-badge',  { autoAlpha:1, y:0, duration:.45 }, 0.20)
+    .to('.hero-line1',   { autoAlpha:1, y:0, duration:.60 }, 0.38)
+    .to('.hero-line2',   { autoAlpha:1, y:0, duration:.65, ease:'power3.out' }, 0.46)
+    .to('.hero-subtitle',{ autoAlpha:1, y:0, duration:.55 }, 0.68)
+    .to('.hero-btns',    { autoAlpha:1, y:0, duration:.55 }, 0.85)
+    .to('.hero-scroll',  { autoAlpha:1, y:0, duration:.45 }, 1.40);
+
+  /* ── Scroll reveal via ScrollTrigger ── */
+  gsap.utils.toArray('.reveal').forEach(el => {
+    const delay = parseFloat([...el.classList]
+      .find(c => /^d[1-6]$/.test(c))?.replace('d','') || 0) * 0.08;
+    gsap.from(el, {
+      y: 40, autoAlpha: 0, duration: .9, delay,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+    });
+  });
+
+  /* ── FlightCard progress bar — tween fluide au scroll ── */
+  ScrollTrigger.create({
+    trigger: '#flight-status',
+    start: 'top 78%', once: true,
+    onEnter: () => {
+      const fill = document.getElementById('fsc-fill');
+      if (!fill) return;
+      const w = parseFloat(fill.style.width) || 2;
+      gsap.fromTo(fill, { width:0 }, { width: w+'%', duration:2.2, ease:'power1.inOut' });
+    }
+  });
+
+  clearTimeout(safetyTimer); /* GSAP s'est bien exécuté */
+
+  } catch(err) {
+    console.warn('[GSAP]', err);
+    showAll();
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
    STARS — animated canvas constellation in hero sky
 ══════════════════════════════════════════════════════════ */
 function initStars() {
@@ -1680,19 +1954,36 @@ function closeOverlay() {
 }
 
 /* ══════════════════════════════════════════════════════════
-   SCROLL REVEAL — IntersectionObserver fade-up on enter
+   SCROLL REVEAL — GSAP + ScrollTrigger (remplace IntersectionObserver)
+   greensock/gsap-skills · gsap-scrolltrigger
 ══════════════════════════════════════════════════════════ */
 function initReveal() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('vis');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
 
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  /* Assigner les delays AVANT d'appeler gsap */
+  document.querySelectorAll('.d1,.d2,.d3,.d4,.d5,.d6').forEach(el => {
+    const cls = [...el.classList].find(c => /^d[1-6]$/.test(c));
+    if (cls) el.dataset.gsapDelay = String(parseInt(cls[1], 10) * 0.08);
+  });
+
+  /* fromTo() — start ET end explicites, GSAP ne lit pas le CSS */
+  gsap.utils.toArray('.reveal').forEach(el => {
+    const delay = parseFloat(el.dataset.gsapDelay || 0);
+    gsap.fromTo(el,
+      { autoAlpha: 0, y: 28 },
+      {
+        autoAlpha: 1, y: 0,
+        duration: 0.58, delay,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 92%',
+          once: true,
+        }
+      }
+    );
+  });
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -1806,6 +2097,16 @@ function handleCheckout() {
    MAP — Leaflet.js avec tuiles CartoDB Voyager (sans clé API)
 ══════════════════════════════════════════════════════════ */
 function initMap() {
+  if (typeof L === 'undefined') {
+    const wrap = document.getElementById('map-wrap');
+    if (wrap) wrap.innerHTML =
+      '<iframe src="https://www.openstreetmap.org/export/embed.html?bbox='
+      + (CONFIG.VENUE_LNG - 0.04) + '%2C' + (CONFIG.VENUE_LAT - 0.02)
+      + '%2C' + (CONFIG.VENUE_LNG + 0.04) + '%2C' + (CONFIG.VENUE_LAT + 0.02)
+      + '&layer=mapnik&marker=' + CONFIG.VENUE_LAT + '%2C' + CONFIG.VENUE_LNG
+      + '" style="width:100%;height:100%;border:none" loading="lazy" title="Carte The Board"></iframe>';
+    return;
+  }
   const map = L.map('map', {
     zoomControl:      false,
     scrollWheelZoom:  false,
