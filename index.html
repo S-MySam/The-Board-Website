@@ -872,12 +872,243 @@
       .trust-badge{ font-size:.5rem;padding:5px 12px }
       .container{ padding:0 16px }
     }
+
+    /* ══════════════════════════════════════════
+       SCROLL PROGRESS BAR
+    ══════════════════════════════════════════ */
+    #scroll-prog{
+      position:fixed;top:0;left:0;height:2px;width:0%;z-index:9999;
+      background:linear-gradient(90deg,var(--gold) 0%,var(--glt) 50%,#A8D8FF 100%);
+      box-shadow:0 0 10px rgba(90,154,222,.7),0 0 4px rgba(90,154,222,.4);
+      pointer-events:none;
+      transition:width .08s linear;
+    }
+
+    /* ══════════════════════════════════════════
+       CURSOR GLOW
+    ══════════════════════════════════════════ */
+    #cursor-glow{
+      position:fixed;pointer-events:none;z-index:1;
+      width:480px;height:480px;border-radius:50%;
+      background:radial-gradient(circle,rgba(43,108,192,.07) 0%,rgba(90,154,222,.03) 40%,transparent 70%);
+      transform:translate(-50%,-50%);
+      mix-blend-mode:screen;
+      transition:opacity .4s ease;
+    }
+
+    /* ══════════════════════════════════════════
+       HERO — CHARACTER SPLIT ANIMATION
+    ══════════════════════════════════════════ */
+    .hero-char{
+      display:inline-block;
+      will-change:transform,opacity,filter;
+    }
+    .hero-line1 .hero-char{
+      display:inline-block;
+    }
+
+    /* ══════════════════════════════════════════
+       3D CARD TILT — tickets + boarding pass
+    ══════════════════════════════════════════ */
+    .tilt-wrap{
+      perspective:1000px;
+      transform-style:preserve-3d;
+    }
+    .tilt-card{
+      will-change:transform;
+      transition:transform .12s ease,box-shadow .25s ease;
+    }
+    .tilt-card:hover{transform-style:preserve-3d}
+
+    /* Boarding pass tilt override */
+    .bp.tilt-card{transform:rotate(-2.5deg)}
+    .bp.tilt-card:hover{transform:rotate(-1deg)}
+
+    /* ══════════════════════════════════════════
+       MAGNETIC BUTTONS
+    ══════════════════════════════════════════ */
+    .btn-mag{
+      position:relative;display:inline-flex;align-items:center;justify-content:center;
+      will-change:transform;
+      transition:transform .5s cubic-bezier(0.23,1,0.32,1);
+    }
+
+    /* ══════════════════════════════════════════
+       PORTHOLE — STAGGERED REVEAL
+    ══════════════════════════════════════════ */
+    .porthole-card{
+      opacity:0;
+      transform:scale(0.72) translateY(24px);
+    }
+    .porthole-card.pv{
+      opacity:1;
+      transform:scale(1) translateY(0);
+      transition:opacity .55s cubic-bezier(0.34,1.56,0.64,1),
+                 transform .55s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    /* ══════════════════════════════════════════
+       SPLIT-FLAP DEPARTURE BOARD
+    ══════════════════════════════════════════ */
+    #splitflap{
+      padding:90px 0 100px;
+      background:linear-gradient(180deg,var(--sand) 0%,#E0EBF7 100%);
+      position:relative;overflow:hidden;
+    }
+    #splitflap::before{
+      content:'';position:absolute;top:0;left:8%;right:8%;height:1px;
+      background:linear-gradient(90deg,transparent,var(--linen) 30%,var(--linen) 70%,transparent);
+    }
+    .sf-eyebrow{margin-bottom:40px;text-align:center}
+    .sf-board{
+      background:#07101E;border-radius:18px;overflow:hidden;
+      box-shadow:0 30px 80px rgba(7,10,22,.35),0 4px 12px rgba(7,10,22,.2),
+                 inset 0 1px 0 rgba(255,255,255,.04);
+      border:1px solid rgba(43,108,192,.12);
+    }
+    .sf-topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      background:#050C18;padding:13px 28px;
+      border-bottom:1px solid rgba(43,108,192,.14);
+    }
+    .sf-brand{
+      display:flex;align-items:center;gap:12px;
+    }
+    .sf-brand-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,.5)}
+    .sf-brand-name{font-family:var(--fd);font-size:1.1rem;font-weight:700;letter-spacing:.2em;color:white}
+    .sf-brand-tag{font-family:var(--fm);font-size:.44rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase}
+    .sf-clock-wrap{display:flex;align-items:center;gap:16px}
+    .sf-clock{font-family:var(--fm);font-size:.72rem;color:rgba(255,255,255,.32);letter-spacing:.12em;font-variant-numeric:tabular-nums}
+    .sf-live-badge{
+      display:flex;align-items:center;gap:6px;
+      font-family:var(--fm);font-size:.44rem;letter-spacing:.18em;text-transform:uppercase;
+      color:#4ade80;background:rgba(74,222,128,.07);
+      border:1px solid rgba(74,222,128,.2);border-radius:4px;padding:3px 8px;
+    }
+    .sf-live-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:sfLivePulse 2s ease-in-out infinite}
+    @keyframes sfLivePulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+    .sf-col-row{
+      display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1.3fr;
+      gap:0;padding:8px 28px;
+      background:#030A14;border-bottom:1px solid rgba(43,108,192,.1);
+    }
+    .sf-col-hd{
+      font-family:var(--fm);font-size:.42rem;letter-spacing:.26em;
+      color:rgba(255,255,255,.2);text-transform:uppercase;padding:0 4px;
+    }
+
+    .sf-row{
+      display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1.3fr;
+      gap:0;min-height:62px;align-items:center;padding:0 28px;
+      border-bottom:1px solid rgba(255,255,255,.03);
+      transition:background .2s ease;
+      cursor:default;
+    }
+    .sf-row:hover{background:rgba(43,108,192,.05)}
+    .sf-row.sf-highlight{
+      background:rgba(43,108,192,.08);
+      border-left:3px solid var(--gold);
+    }
+    .sf-row:last-child{border-bottom:none}
+
+    .sf-cell{padding:0 4px}
+
+    .sf-flight-cell{display:flex;align-items:center;gap:11px}
+    .sf-flight-num{
+      font-family:var(--fm);font-size:.78rem;font-weight:700;
+      color:rgba(255,255,255,.9);letter-spacing:.12em;
+    }
+    .sf-airline-tag{
+      font-family:var(--fm);font-size:.42rem;letter-spacing:.18em;
+      color:rgba(255,255,255,.3);text-transform:uppercase;
+      background:rgba(255,255,255,.05);border-radius:3px;padding:2px 6px;
+    }
+    .sf-dest{
+      font-family:var(--fd);font-size:1.05rem;font-weight:600;
+      color:rgba(255,255,255,.85);letter-spacing:.04em;
+    }
+    .sf-gate{
+      font-family:var(--fm);font-size:.82rem;font-weight:700;
+      color:var(--glt);letter-spacing:.1em;
+    }
+    .sf-time-val{
+      font-family:var(--fm);font-size:.82rem;
+      color:rgba(255,255,255,.6);letter-spacing:.08em;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .sf-status-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      font-family:var(--fm);font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;
+      padding:5px 10px;border-radius:4px;font-weight:700;white-space:nowrap;
+    }
+    .sf-status-badge.boarding{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+    .sf-status-badge.scheduled{background:rgba(52,118,200,.1);color:var(--glt);border:1px solid rgba(52,118,200,.18)}
+    .sf-status-badge.confirmed{background:rgba(201,150,58,.09);color:var(--gold);border:1px solid rgba(201,150,58,.2)}
+    .sf-status-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+    .boarding .sf-status-dot{background:#4ade80;box-shadow:0 0 5px rgba(74,222,128,.5)}
+    .scheduled .sf-status-dot{background:var(--glt)}
+    .confirmed .sf-status-dot{background:var(--gold)}
+
+    /* Flip animation when row enters view */
+    @keyframes sfFlipIn{
+      0%{opacity:0;transform:translateY(8px)}
+      100%{opacity:1;transform:translateY(0)}
+    }
+    .sf-row.sf-animate{animation:sfFlipIn .4s ease-out both}
+    .sf-row:nth-child(1){animation-delay:.05s}
+    .sf-row:nth-child(2){animation-delay:.12s}
+    .sf-row:nth-child(3){animation-delay:.19s}
+    .sf-row:nth-child(4){animation-delay:.26s}
+    .sf-row:nth-child(5){animation-delay:.33s}
+
+    .sf-footer{
+      background:#050C18;padding:11px 28px;
+      display:flex;align-items:center;justify-content:space-between;
+      border-top:1px solid rgba(43,108,192,.1);
+    }
+    .sf-footer-note{font-family:var(--fm);font-size:.44rem;letter-spacing:.16em;color:rgba(255,255,255,.18);text-transform:uppercase}
+
+    @media(max-width:768px){
+      .sf-board{border-radius:12px}
+      .sf-row,.sf-col-row{grid-template-columns:2fr 1fr 1.1fr;padding:0 16px}
+      .sf-topbar{padding:11px 16px}
+      .sf-col-hd:nth-child(3),.sf-col-hd:nth-child(4),.sf-cell:nth-child(4){display:none}
+      .sf-cell:nth-child(3),.sf-col-hd:nth-child(3){display:none}
+      .sf-dest{font-size:.92rem}
+      .sf-footer{padding:9px 16px}
+    }
+
+    /* ══════════════════════════════════════════
+       AMBIENT SECTION GLOW (subtle, premium feel)
+    ══════════════════════════════════════════ */
+    #billetterie::after{
+      content:'';position:absolute;bottom:-80px;left:50%;transform:translateX(-50%);
+      width:600px;height:200px;
+      background:radial-gradient(ellipse,rgba(43,108,192,.08) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    #equipage::before{
+      box-shadow:0 0 40px rgba(43,108,192,.2),0 0 120px rgba(43,108,192,.06);
+    }
+
+    /* ══════════════════════════════════════════
+       HERO PARALLAX ON SCROLL
+    ══════════════════════════════════════════ */
+    .hero-content{will-change:transform}
+    .hero-scroll{will-change:transform,opacity}
+
   </style>
   <!-- GSAP + ScrollTrigger (greensock/gsap-skills) -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 </head>
 <body>
+
+<!-- Scroll progress + cursor glow -->
+<div id="scroll-prog"></div>
+<div id="cursor-glow"></div>
 
 <!-- ══════════════════════════════════════════
      NAVIGATION
@@ -923,15 +1154,15 @@
     </div>
 
     <h1 class="hero-title">
-      <span class="hero-line1">THE</span>
-      <span class="hero-line2">BOARD</span>
+      <span class="hero-line1"><span class="hero-char">T</span><span class="hero-char">H</span><span class="hero-char">E</span></span>
+      <span class="hero-line2"><span class="hero-char">B</span><span class="hero-char">O</span><span class="hero-char">A</span><span class="hero-char">R</span><span class="hero-char">D</span></span>
     </h1>
 
     <p class="hero-subtitle">Chaque vol est une nouvelle destination.</p>
 
     <div class="hero-btns">
-      <a href="#billetterie" class="btn-hero-primary">Réserver mon embarquement</a>
-      <a href="#concept"     class="btn-hero-secondary">Découvrir le concept →</a>
+      <a href="#billetterie" class="btn-hero-primary btn-mag">Réserver mon embarquement</a>
+      <a href="#concept"     class="btn-hero-secondary btn-mag">Découvrir le concept →</a>
     </div>
 
   </div>
@@ -1086,6 +1317,102 @@
         </a>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SPLIT-FLAP DEPARTURE BOARD
+══════════════════════════════════════════ -->
+<section id="splitflap">
+  <div class="container">
+    <div class="sf-eyebrow">
+      <p class="eyebrow reveal">Tableau des départs</p>
+      <h2 class="sec-title reveal d1">Programme de vol</h2>
+    </div>
+    <div class="sf-board reveal d2">
+      <!-- Top bar -->
+      <div class="sf-topbar">
+        <div class="sf-brand">
+          <div class="sf-brand-dot"></div>
+          <span class="sf-brand-name">THE BOARD</span>
+          <span class="sf-brand-tag">Flights</span>
+        </div>
+        <div class="sf-clock-wrap">
+          <div class="sf-live-badge"><div class="sf-live-dot"></div>Live</div>
+          <div class="sf-clock" id="sf-clock-time">--:--</div>
+        </div>
+      </div>
+      <!-- Column headers -->
+      <div class="sf-col-row">
+        <div class="sf-col-hd">Vol</div>
+        <div class="sf-col-hd">Destination</div>
+        <div class="sf-col-hd">Porte</div>
+        <div class="sf-col-hd">Départ</div>
+        <div class="sf-col-hd">Statut</div>
+      </div>
+      <!-- Flights -->
+      <div class="sf-row sf-highlight sf-animate">
+        <div class="sf-cell sf-flight-cell">
+          <span class="sf-flight-num">TB 001</span>
+          <span class="sf-airline-tag">The Board</span>
+        </div>
+        <div class="sf-cell"><span class="sf-dest">Rouen • Été</span></div>
+        <div class="sf-cell"><span class="sf-gate">A1</span></div>
+        <div class="sf-cell"><span class="sf-time-val">19:00</span></div>
+        <div class="sf-cell">
+          <span class="sf-status-badge boarding">
+            <span class="sf-status-dot"></span>Embarquement
+          </span>
+        </div>
+      </div>
+      <div class="sf-row sf-animate">
+        <div class="sf-cell sf-flight-cell">
+          <span class="sf-flight-num">TB 002</span>
+          <span class="sf-airline-tag">The Board</span>
+        </div>
+        <div class="sf-cell"><span class="sf-dest">À révéler</span></div>
+        <div class="sf-cell"><span class="sf-gate">—</span></div>
+        <div class="sf-cell"><span class="sf-time-val">Automne 26</span></div>
+        <div class="sf-cell">
+          <span class="sf-status-badge scheduled">
+            <span class="sf-status-dot"></span>Programmé
+          </span>
+        </div>
+      </div>
+      <div class="sf-row sf-animate">
+        <div class="sf-cell sf-flight-cell">
+          <span class="sf-flight-num">TB 003</span>
+          <span class="sf-airline-tag">The Board</span>
+        </div>
+        <div class="sf-cell"><span class="sf-dest">Confidentiel</span></div>
+        <div class="sf-cell"><span class="sf-gate">—</span></div>
+        <div class="sf-cell"><span class="sf-time-val">Hiver 26</span></div>
+        <div class="sf-cell">
+          <span class="sf-status-badge scheduled">
+            <span class="sf-status-dot"></span>Programmé
+          </span>
+        </div>
+      </div>
+      <div class="sf-row sf-animate">
+        <div class="sf-cell sf-flight-cell">
+          <span class="sf-flight-num">TB 004</span>
+          <span class="sf-airline-tag">The Board</span>
+        </div>
+        <div class="sf-cell"><span class="sf-dest">Destination inconnue</span></div>
+        <div class="sf-cell"><span class="sf-gate">—</span></div>
+        <div class="sf-cell"><span class="sf-time-val">2027</span></div>
+        <div class="sf-cell">
+          <span class="sf-status-badge confirmed">
+            <span class="sf-status-dot"></span>Confirmé
+          </span>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="sf-footer">
+        <span class="sf-footer-note">The Board Airlines · Chaque vol est une nouvelle destination</span>
+        <span class="sf-footer-note" id="sf-flight-count">4 vols programmés</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1514,17 +1841,25 @@ const CONFIG = {
 document.addEventListener('DOMContentLoaded', () => {
   const safe = (fn, name) => { try { fn(); } catch(e) { console.warn('[init]', name, e); } };
 
-  safe(applyConfig,     'applyConfig');
-  safe(initShader,      'initShader');
-  safe(initStars,       'initStars');
-  safe(initNav,         'initNav');
-  safe(initHeroGSAP,    'initHeroGSAP');   /* hero entrance GSAP */
-  safe(initReveal,      'initReveal');       /* scroll reveal ScrollTrigger */
-  safe(initFlightCard,  'initFlightCard');
-  safe(updateOrder,     'updateOrder');
-  safe(initMap,         'initMap');
-  safe(initBarcode,     'initBarcode');
-  safe(initForm,        'initForm');
+  safe(applyConfig,       'applyConfig');
+  safe(initShader,        'initShader');
+  safe(initStars,         'initStars');
+  safe(initNav,           'initNav');
+  safe(initHeroGSAP,      'initHeroGSAP');
+  safe(initReveal,        'initReveal');
+  safe(initFlightCard,    'initFlightCard');
+  safe(updateOrder,       'updateOrder');
+  safe(initMap,           'initMap');
+  safe(initBarcode,       'initBarcode');
+  safe(initForm,          'initForm');
+  /* ── Nouveaux modules visuels ── */
+  safe(initScrollProgress,'initScrollProgress');
+  safe(initCursorGlow,    'initCursorGlow');
+  safe(initTilt3D,        'initTilt3D');
+  safe(initMagneticBtns,  'initMagneticBtns');
+  safe(initPortholeReveal,'initPortholeReveal');
+  safe(initSplitFlapClock,'initSplitFlapClock');
+  safe(initHeroParallax,  'initHeroParallax');
 });
 
 /* ── Apply CONFIG values to DOM ── */
@@ -1819,73 +2154,122 @@ function initShader() {
    greensock/gsap-skills · gsap-core + gsap-timeline + gsap-scrolltrigger
 ══════════════════════════════════════════════════════════ */
 function initHeroGSAP() {
-  /* Fallback si GSAP ne charge pas */
   if (typeof gsap === 'undefined') {
     document.body.classList.add('no-gsap');
     return;
   }
 
-  /* Safety net : si GSAP crashe, afficher quand même tout après 3s */
+  /* Safety net : affiche tout si GSAP crashe */
   const showAll = () => {
-    ['.trust-badge','.hero-line1','.hero-line2',
-     '.hero-subtitle','.hero-btns','.hero-scroll'].forEach(sel => {
-      const el = document.querySelector(sel);
-      if (el) { el.style.opacity='1'; el.style.visibility=''; el.style.transform=''; }
+    document.querySelectorAll('.trust-badge,.hero-line1,.hero-line2,.hero-subtitle,.hero-btns,.hero-scroll,.hero-char').forEach(el => {
+      el.style.opacity = '1'; el.style.visibility = ''; el.style.transform = '';
+      el.style.filter = ''; el.style.letterSpacing = '';
     });
     document.querySelectorAll('.reveal').forEach(el => {
-      el.style.opacity='1'; el.style.transform='none';
+      el.style.opacity = '1'; el.style.transform = 'none';
     });
   };
-  const safetyTimer = setTimeout(showAll, 2000);
+  const safetyTimer = setTimeout(showAll, 2800);
 
   try {
+    gsap.registerPlugin(ScrollTrigger);
 
-  gsap.registerPlugin(ScrollTrigger);
+    /* ── Initialisation : masquer tous les éléments hero ── */
+    gsap.set('.trust-badge', { autoAlpha:0, y:-18 });
+    gsap.set('.hero-subtitle', { autoAlpha:0, y:20 });
+    gsap.set('.hero-btns', { autoAlpha:0, scale:0.88 });
+    gsap.set('.hero-scroll', { autoAlpha:0, y:10 });
 
-  /* ── Hero entrance : cacher puis animer séquentiellement ── */
-  const hEls = ['.trust-badge','.hero-line1','.hero-line2',
-                '.hero-subtitle','.hero-btns','.hero-scroll'];
-  hEls.forEach(sel => {
-    const el = document.querySelector(sel);
-    if (el) gsap.set(el, { autoAlpha:0, y:28 });
-  });
+    /* Masquer les chars individuellement */
+    const line1Chars = document.querySelectorAll('.hero-line1 .hero-char');
+    const line2Chars = document.querySelectorAll('.hero-line2 .hero-char');
+    gsap.set(line1Chars, { autoAlpha:0, y:40, rotateX:-60, filter:'blur(8px)' });
+    gsap.set(line2Chars, { autoAlpha:0, y:80, rotateX:-90, scale:0.7, filter:'blur(14px)' });
 
-  /* Timeline hero — power2.out = décel élégante */
-  const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
-  tl.to('.trust-badge',  { autoAlpha:1, y:0, duration:.45 }, 0.20)
-    .to('.hero-line1',   { autoAlpha:1, y:0, duration:.60 }, 0.38)
-    .to('.hero-line2',   { autoAlpha:1, y:0, duration:.65, ease:'power3.out' }, 0.46)
-    .to('.hero-subtitle',{ autoAlpha:1, y:0, duration:.55 }, 0.68)
-    .to('.hero-btns',    { autoAlpha:1, y:0, duration:.55 }, 0.85)
-    .to('.hero-scroll',  { autoAlpha:1, y:0, duration:.45 }, 1.40);
+    /* ── Timeline principale hero ── */
+    const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
 
-  /* ── Scroll reveal via ScrollTrigger ── */
-  gsap.utils.toArray('.reveal').forEach(el => {
-    const delay = parseFloat([...el.classList]
-      .find(c => /^d[1-6]$/.test(c))?.replace('d','') || 0) * 0.08;
-    gsap.from(el, {
-      y: 40, autoAlpha: 0, duration: .9, delay,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+    /* Trust badge descend depuis le haut */
+    tl.to('.trust-badge', { autoAlpha:1, y:0, duration:.5, ease:'back.out(1.4)' }, 0.15);
+
+    /* "THE" — lettres arrivent en séquence depuis le bas */
+    tl.to(line1Chars, {
+      autoAlpha:1, y:0, rotateX:0, filter:'blur(0px)',
+      duration:.45, stagger:.06, ease:'power2.out'
+    }, 0.38);
+
+    /* "BOARD" — lettres arrivent en cascade avec effet scale + blur */
+    tl.to(line2Chars, {
+      autoAlpha:1, y:0, rotateX:0, scale:1, filter:'blur(0px)',
+      duration:.65, stagger:.07, ease:'power4.out'
+    }, 0.58);
+
+    /* Sous-titre fond depuis le bas */
+    tl.to('.hero-subtitle', { autoAlpha:1, y:0, duration:.55, ease:'power2.out' }, 1.02);
+
+    /* Boutons scale-in élastique */
+    tl.to('.hero-btns', {
+      autoAlpha:1, scale:1, duration:.6, ease:'elastic.out(1, 0.65)'
+    }, 1.18);
+
+    /* Scroll indicator */
+    tl.to('.hero-scroll', { autoAlpha:1, y:0, duration:.4 }, 1.55);
+
+    /* ── Scroll reveal via ScrollTrigger (pour toutes les sections) ── */
+    gsap.utils.toArray('.reveal').forEach(el => {
+      const cls   = [...el.classList].find(c => /^d[1-6]$/.test(c));
+      const delay = cls ? parseInt(cls[1], 10) * 0.09 : 0;
+      gsap.fromTo(el,
+        { autoAlpha:0, y:36 },
+        {
+          autoAlpha:1, y:0, duration:.75, delay,
+          ease:'power2.out',
+          scrollTrigger: { trigger:el, start:'top 90%', once:true }
+        }
+      );
     });
-  });
 
-  /* ── FlightCard progress bar — tween fluide au scroll ── */
-  ScrollTrigger.create({
-    trigger: '#flight-status',
-    start: 'top 78%', once: true,
-    onEnter: () => {
-      const fill = document.getElementById('fsc-fill');
-      if (!fill) return;
-      const w = parseFloat(fill.style.width) || 2;
-      gsap.fromTo(fill, { width:0 }, { width: w+'%', duration:2.2, ease:'power1.inOut' });
-    }
-  });
+    /* ── Ticket cards — apparition en cascade ── */
+    gsap.utils.toArray('.ticket').forEach((card, i) => {
+      gsap.fromTo(card,
+        { autoAlpha:0, y:50, rotateY:12 },
+        {
+          autoAlpha:1, y:0, rotateY:0,
+          duration:.8, delay: i * 0.12,
+          ease:'power3.out',
+          scrollTrigger: { trigger:card, start:'top 88%', once:true }
+        }
+      );
+    });
 
-  clearTimeout(safetyTimer); /* GSAP s'est bien exécuté */
+    /* ── FlightCard progress bar ── */
+    ScrollTrigger.create({
+      trigger: '#flight-status', start:'top 78%', once:true,
+      onEnter: () => {
+        const fill = document.getElementById('fsc-fill');
+        if (!fill) return;
+        const w = parseFloat(fill.style.width) || 2;
+        gsap.fromTo(fill, { width:0 }, { width:w+'%', duration:2.4, ease:'power1.inOut' });
+      }
+    });
+
+    /* ── Split-flap board — flip animé à l'entrée ── */
+    ScrollTrigger.create({
+      trigger:'#splitflap', start:'top 80%', once:true,
+      onEnter: () => {
+        document.querySelectorAll('.sf-row.sf-animate').forEach((row, i) => {
+          gsap.fromTo(row,
+            { autoAlpha:0, y:16 },
+            { autoAlpha:1, y:0, duration:.4, delay:i*.1, ease:'power2.out' }
+          );
+        });
+      }
+    });
+
+    clearTimeout(safetyTimer);
 
   } catch(err) {
-    console.warn('[GSAP]', err);
+    console.warn('[GSAP initHeroGSAP]', err);
     showAll();
   }
 }
@@ -2194,6 +2578,172 @@ function showSuccess(btn, form) {
     form.reset();
   }, 3500);
 }
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   SCROLL PROGRESS BAR
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+function initScrollProgress() {
+  const bar = document.getElementById('scroll-prog');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total    = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+  }, { passive: true });
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   CURSOR GLOW \u2014 orbe lumineux qui suit la souris
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+function initCursorGlow() {
+  if (window.matchMedia('(pointer:coarse)').matches) return; /* mobile : off */
+  const glow = document.getElementById('cursor-glow');
+  if (!glow) return;
+  let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+  let tx = cx, ty = cy;
+  document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+  let rafId;
+  const lerp = (a, b, t) => a + (b - a) * t;
+  function tick() {
+    cx = lerp(cx, tx, 0.06);
+    cy = lerp(cy, ty, 0.06);
+    glow.style.left = cx + 'px';
+    glow.style.top  = cy + 'px';
+    rafId = requestAnimationFrame(tick);
+  }
+  tick();
+  /* Fade out when mouse leaves window */
+  document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { glow.style.opacity = '1'; });
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   3D CARD TILT \u2014 tickets, boarding pass
+   Tilt l\u00e9ger sur mouse-move, retour smooth sur mouse-leave
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+function initTilt3D() {
+  const cards = document.querySelectorAll('.ticket, .bp, .fsc-card');
+  cards.forEach(card => {
+    const MAX_ROT = 8; /* degr\u00e9s max */
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5; /* -0.5 to 0.5 */
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      const ry =  x * MAX_ROT;
+      const rx = -y * MAX_ROT;
+      card.style.transform    = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.015,1.015,1.015)`;
+      card.style.transition   = 'transform .12s ease,box-shadow .2s ease';
+      card.style.boxShadow    = `${-ry*2}px ${rx*2}px 40px rgba(43,108,192,.18)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      /* Reset \u2014 pour .bp on remet la rotation initiale */
+      const isBp = card.classList.contains('bp');
+      card.style.transform = isBp ? 'rotate(-2.5deg)' : '';
+      card.style.transition = 'transform .5s cubic-bezier(0.23,1,0.32,1),box-shadow .4s ease';
+      card.style.boxShadow = '';
+    });
+  });
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   MAGNETIC BUTTONS \u2014 attraction douce vers la souris
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+function initMagneticBtns() {
+  if (window.matchMedia('(pointer:coarse)').matches) return;
+  document.querySelectorAll('.btn-mag').forEach(btn => {
+    const STRENGTH = 0.32;
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const cx = r.left + r.width  / 2;
+      const cy = r.top  + r.height / 2;
+      const dx = (e.clientX - cx) * STRENGTH;
+      const dy = (e.clientY - cy) * STRENGTH;
+      btn.style.transform  = `translate(${dx}px,${dy}px)`;
+      btn.style.transition = 'transform .2s cubic-bezier(0.23,1,0.32,1)';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform  = '';
+      btn.style.transition = 'transform .5s cubic-bezier(0.23,1,0.32,1)';
+    });
+  });
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   PORTHOLE REVEAL \u2014 apparition en cascade avec IntersectionObserver
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+function initPortholeReveal() {
+  const cards = document.querySelectorAll('.porthole-card');
+  if (!cards.length) return;
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const card  = entry.target;
+      const index = [...cards].indexOf(card);
+      setTimeout(() => { card.classList.add('pv'); }, index * 90);
+      observer.unobserve(card);
+    });
+  }, { threshold: 0.15 });
+  cards.forEach(c => observer.observe(c));
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   SPLIT-FLAP CLOCK \u2014 affiche l'heure en temps r\u00e9el
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+function initSplitFlapClock() {
+  const clockEl = document.getElementById('sf-clock-time');
+  if (!clockEl) return;
+  function tick() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    clockEl.textContent = h + ':' + m + ':' + s;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* Animate rows when splitflap section enters view */
+  const section = document.getElementById('splitflap');
+  if (!section) return;
+  let triggered = false;
+  const obs = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting && !triggered) {
+      triggered = true;
+      document.querySelectorAll('.sf-row.sf-animate').forEach((row, i) => {
+        row.style.animationDelay = (i * 0.08) + 's';
+        row.style.animationPlayState = 'running';
+      });
+      obs.disconnect();
+    }
+  }, { threshold: 0.2 });
+  obs.observe(section);
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   HERO PARALLAX ON SCROLL \u2014 contenu hero monte l\u00e9g\u00e8rement
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+function initHeroParallax() {
+  const heroContent = document.querySelector('.hero-content');
+  const heroScroll  = document.querySelector('.hero-scroll');
+  const hero        = document.getElementById('hero');
+  if (!heroContent || !hero) return;
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    if (scrollY > window.innerHeight) return; /* stop after hero */
+    const pct = scrollY / window.innerHeight;
+    heroContent.style.transform = `translateY(${scrollY * 0.22}px)`;
+    heroContent.style.opacity   = 1 - pct * 1.4;
+    if (heroScroll) {
+      heroScroll.style.opacity   = Math.max(0, 1 - pct * 4);
+      heroScroll.style.transform = `translateX(-50%) translateY(${scrollY * 0.1}px)`;
+    }
+  }, { passive: true });
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   HERO GSAP \u2014 Override : animation par caract\u00e8re pour BOARD
+   + trust badge depuis le haut, buttons scale-in \u00e9lastique
+\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
 
 </script>
 </body>

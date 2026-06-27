@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Accompagnement — MySam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--dp:#3B1F6B;--mp:#5A2FA3;--sp:#7B4FCF;--ll:#EDE7FF;--lm:#C9B8F0;--or:#FF6B35;--oh:#E85520;--wh:#FFFFFF;--ow:#FAF9FF;--td:#1A1030;--tm:#4A3870;--tl:#8270AA;--bd:#E0D8F5}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--td);background:var(--wh);overflow-x:hidden}
+img{display:block;max-width:100%}
+a{text-decoration:none}
+ul{list-style:none}
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:50px;font-size:.95rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:all .25s ease;white-space:nowrap}
+.btn-or{background:var(--or);color:var(--wh)}.btn-or:hover{background:var(--oh);transform:translateY(-2px)}
+.btn-pu{background:var(--mp);color:var(--wh)}.btn-pu:hover{background:var(--dp);transform:translateY(-2px)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);transition:box-shadow .3s}
+.nav.s{box-shadow:0 4px 32px rgba(59,31,107,.10)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{width:40px;height:40px;border-radius:8px;overflow:hidden}
+.logo-img{width:40px;height:40px;object-fit:contain;display:block}
+.logo-text{font-weight:700;font-size:1.2rem;color:var(--dp)}
+.logo-sub{font-size:.65rem;color:var(--tl);font-weight:400;letter-spacing:.08em;text-transform:uppercase;display:block;line-height:1}
+.nav-links{display:flex;align-items:center;gap:4px;flex:1;justify-content:center}
+.nav-links a{padding:8px 14px;border-radius:8px;font-size:.9rem;font-weight:500;color:var(--tm);transition:all .2s}
+.nav-links a:hover{color:var(--mp);background:var(--ll)}
+.nav-acts{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.nav-login{font-size:.875rem;font-weight:500;color:var(--mp);padding:8px 12px;border-radius:8px;transition:all .2s}
+.nav-login:hover{background:var(--ll)}
+.hburg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;border:none;background:none}
+.hburg span{display:block;width:22px;height:2px;background:var(--dp);border-radius:2px}
+@media(max-width:768px){.nav-links,.nav-login{display:none}.hburg{display:flex}}
+footer{background:var(--td);color:rgba(255,255,255,.75);padding:60px 0 28px}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:40px;margin-bottom:48px}
+.ft-brand .logo-text{color:var(--wh)}
+.ft-brand>p{font-size:.85rem;line-height:1.7;color:rgba(255,255,255,.5);max-width:260px;margin-top:10px}
+.ft-social{display:flex;gap:10px;margin-top:16px}
+.soc{width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.82rem;color:rgba(255,255,255,.6);cursor:pointer;transition:all .2s;text-decoration:none}
+.soc:hover{background:var(--mp);border-color:var(--mp);color:var(--wh)}
+.ft-col h4{font-size:.85rem;font-weight:700;color:var(--wh);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.ft-col ul{display:flex;flex-direction:column;gap:10px}
+.ft-col ul a{font-size:.85rem;color:rgba(255,255,255,.5);transition:color .2s}
+.ft-col ul a:hover{color:var(--lm)}
+.ft-contacts{display:flex;flex-direction:column;gap:12px}
+.fci{display:flex;align-items:flex-start;gap:10px}
+.fci-ico{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.fci strong{display:block;font-size:.78rem;font-weight:600;color:var(--wh)}
+.fci span{font-size:.78rem;color:rgba(255,255,255,.45)}
+.ft-bot{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ft-bot p{font-size:.78rem;color:rgba(255,255,255,.3)}
+.ft-links{display:flex;gap:20px}
+.ft-links a{font-size:.78rem;color:rgba(255,255,255,.3);transition:color .2s}
+.ft-links a:hover{color:rgba(255,255,255,.7)}
+@media(max-width:1024px){.ft-grid{grid-template-columns:1fr 1fr;gap:28px}.services-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.ft-grid{grid-template-columns:1fr;gap:24px}}
+main{min-height:100vh;padding-top:72px;background:linear-gradient(160deg,var(--ow) 0%,#F5EEFF 100%)}
+.hero-acc{padding:60px 0 40px;text-align:center}
+.hero-acc h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--dp);margin-bottom:12px;line-height:1.1}
+.hero-acc p{font-size:1rem;color:var(--tm);max-width:520px;margin:0 auto;line-height:1.7}
+.breadcrumb{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--tl);margin-bottom:20px}
+.breadcrumb a{color:var(--mp);text-decoration:underline}
+.services-section{padding:40px 0 60px}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:40px}
+.service-card{background:var(--wh);border:2px solid var(--bd);border-radius:20px;padding:32px 24px;cursor:pointer;transition:all .3s ease;text-align:center;display:flex;flex-direction:column;align-items:center}
+.service-card:hover{border-color:var(--mp);box-shadow:0 8px 32px rgba(59,31,107,.12);transform:translateY(-4px)}
+.service-card.active{background:linear-gradient(135deg,var(--dp) 0%,var(--mp) 100%);border-color:var(--sp)}
+.service-card.active .service-title,.service-card.active .service-desc{color:var(--wh)}
+.service-icon{font-size:3rem;margin-bottom:14px}
+.service-title{font-size:1.05rem;font-weight:700;color:var(--dp);margin-bottom:8px}
+.service-desc{font-size:.82rem;color:var(--tl);line-height:1.5}
+.content-panel{display:none}
+.content-panel.active{display:block}
+.info-box{background:var(--wh);border:2px solid var(--bd);border-radius:20px;padding:40px;max-width:800px;margin:0 auto}
+.info-box h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--dp);margin-bottom:16px;font-weight:700}
+.info-box p{font-size:.95rem;color:var(--tm);line-height:1.8;margin-bottom:16px}
+.info-box ul{padding-left:20px;margin-bottom:24px}
+.info-box li{font-size:.92rem;color:var(--tm);margin-bottom:10px;line-height:1.6}
+.sec-label{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mp);margin-bottom:10px}
+.sec-label-line{width:24px;height:2px;background:var(--or);border-radius:2px}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<nav class="nav" id="navbar">
+  <div class="container">
+    <div class="nav-in">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"><img src="assets/Logo MySam.png" alt="MySam" class="logo-img"/></div>
+        <div><span class="logo-text">MySam</span><span class="logo-sub">Conseil &amp; Service</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="actualites.html">Actualités</a></li>
+        <li><a href="rendezvous.html">Rendez-vous</a></li>
+        <li><a href="contact.html">Contactez-nous</a></li>
+      </ul>
+      <div class="nav-acts">
+        <a href="connexion.html" class="nav-login">Se connecter</a>
+        <a href="contact.html" class="btn btn-or">Contactez-nous</a>
+      </div>
+      <button class="hburg" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<main>
+  <div class="hero-acc">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html#particuliers">Accompagnement Particuliers</a><span>→</span><span>Vos services</span></div>
+      <h1>Services d'accompagnement</h1>
+      <p>Sélectionnez le service qui correspond à votre besoin.</p>
+    </div>
+  </div>
+  <div class="services-section">
+    <div class="container">
+      <div class="services-grid">
+        <div class="service-card active" data-service="cv"><div class="service-icon">📄</div><div class="service-title">Générer mon CV</div><div class="service-desc">CV optimisé par l'IA en 2 minutes</div></div>
+        <div class="service-card" data-service="bilan"><div class="service-icon">🎯</div><div class="service-title">Bilan de compétences</div><div class="service-desc">Clarifiez votre orientation professionnelle</div></div>
+        <div class="service-card" data-service="preparation"><div class="service-icon">💼</div><div class="service-title">Préparation candidatures</div><div class="service-desc">CV, lettre, entretien, stratégie</div></div>
+      </div>
+      <div class="content-panel active" id="panel-cv"><div id="cv-app"></div></div>
+      <div class="content-panel" id="panel-bilan">
+        <div class="info-box">
+          <div class="sec-label"><span class="sec-label-line"></span>Bilan de compétences</div>
+          <h2>Clarifiez votre orientation</h2>
+          <p>Un bilan de compétences vous aide à faire le point sur vos forces, vos intérêts et vos aspirations professionnelles avec l'accompagnement d'un expert MySam.</p>
+          <ul><li><strong>Autoévaluation complète</strong> — Compétences techniques, soft skills, valeurs</li><li><strong>Entretiens structurés</strong> — Explorer motivations et blocages avec un coach</li><li><strong>Plan d'action concret</strong> — Étapes claires avec délais réalistes</li></ul>
+          <a href="rendezvous.html" class="btn btn-pu">Réserver un créneau →</a>
+        </div>
+      </div>
+      <div class="content-panel" id="panel-preparation">
+        <div class="info-box">
+          <div class="sec-label"><span class="sec-label-line"></span>Préparation aux candidatures</div>
+          <h2>Décrochez le poste que vous méritez</h2>
+          <p>Un accompagnement complet pour maximiser vos chances à chaque étape du recrutement.</p>
+          <ul><li><strong>CV optimisé</strong> — Structure, contenu, visibilité ATS</li><li><strong>Lettre de motivation</strong> — Personnalisée, convaincante, impactante</li><li><strong>Préparation entretien</strong> — Simulation, gestion du stress, réponses stratégiques</li><li><strong>LinkedIn</strong> — Profil attractif, réseau actif</li></ul>
+          <a href="rendezvous.html" class="btn btn-pu">Réserver un créneau →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="container">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="index.html" class="logo"><div class="logo-mark"><img src="assets/Logo MySam.png" class="logo-img" alt="MySam"/></div><div><span class="logo-text">MySam</span><span class="logo-sub" style="color:rgba(255,255,255,.4)">Conseil &amp; Service</span></div></a>
+        <p>MySam accompagne entreprises, particuliers et publics fragilisés vers des solutions concrètes, humaines et durables.</p>
+        <div class="ft-social"><a href="#" class="soc">in</a><a href="#" class="soc">𝕏</a><a href="#" class="soc">f</a><a href="#" class="soc">●</a></div>
+      </div>
+      <div class="ft-col"><h4>Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="index.html#particuliers">Accompagnement</a></li><li><a href="index.html#zodiac">Programme Zodiac</a></li><li><a href="actualites.html">Actualités</a></li></ul></div>
+      <div class="ft-col"><h4>Ressources</h4><ul><li><a href="actualites.html">Blog &amp; Conseils</a></li><li><a href="connexion.html">Espace client</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="ft-col"><h4>Nous contacter</h4><div class="ft-contacts"><div class="fci"><div class="fci-ico">📍</div><div><strong>Adresse</strong><span>Paris, France</span></div></div><div class="fci"><div class="fci-ico">✉️</div><div><strong>Email</strong><span>contact@mysam-conseil.fr</span></div></div><div class="fci"><div class="fci-ico">📞</div><div><strong>Téléphone</strong><span>+33 (0)1 XX XX XX XX</span></div></div></div></div>
+    </div>
+    <div class="ft-bot"><p>&copy; 2025 MySam Conseil &amp; Service. Tous droits réservés.</p><div class="ft-links"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a></div></div>
+  </div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var nb=document.getElementById('navbar');
+  window.addEventListener('scroll',function(){nb.classList.toggle('s',window.scrollY>20);});
+  document.querySelectorAll('.service-card').forEach(function(card){
+    card.addEventListener('click',function(){
+      document.querySelectorAll('.service-card').forEach(function(c){c.classList.remove('active');});
+      document.querySelectorAll('.content-panel').forEach(function(p){p.classList.remove('active');});
+      this.classList.add('active');
+      document.getElementById('panel-'+this.dataset.service).classList.add('active');
+      document.querySelector('.content-panel.active').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+});
+</script>
+<script type="text/babel">
+// =====================================================
+// CONFIGURATION — Cloudflare Worker URL
+// 1. Déploie cloudflare-worker.js sur workers.cloudflare.com
+// 2. Ajoute la variable ANTHROPIC_API_KEY dans les settings du worker
+// 3. Remplace l'URL ci-dessous par l'URL de ton worker déployé
+// Exemple: "https://mysam-cv.ton-compte.workers.dev"
+// =====================================================
+const WORKER_URL = "https://TON-WORKER.workers.dev";
+const WORKER_CONFIGURED = WORKER_URL !== "https://TON-WORKER.workers.dev" && !WORKER_URL.includes('TON-WORKER');
+
+if(typeof pdfjsLib!=='undefined'){
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+async function extractPDF(file){
+  const arr=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:arr}).promise;
+  let text='';
+  for(let i=1;i<=pdf.numPages;i++){
+    const page=await pdf.getPage(i);
+    const content=await page.getTextContent();
+    text+=content.items.map(item=>item.str).join(' ')+'\n';
+  }
+  return text;
+}
+
+async function extractWord(file){
+  const arr=await file.arrayBuffer();
+  const result=await mammoth.extractRawText({arrayBuffer:arr});
+  return result.value;
+}
+
+async function callWorker(userContent){
+  if(!WORKER_CONFIGURED){
+    throw new Error(
+      'Le service de génération n\'est pas encore configuré.\n' +
+      'Déploie le fichier cloudflare-worker.js sur Cloudflare Workers ' +
+      'et mets à jour WORKER_URL dans le code.'
+    );
+  }
+  let res;
+  try{
+    res=await fetch(WORKER_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({userContent}),
+    });
+  }catch(netErr){
+    throw new Error('Impossible de contacter le serveur. Vérifiez votre connexion.');
+  }
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok){
+    throw new Error(data.error||'Erreur serveur ('+res.status+')');
+  }
+  if(data.error)throw new Error(data.error);
+  return data; /* Le worker retourne directement le JSON du CV */
+}
+
+const dark={background:'linear-gradient(135deg,#3B1F6B 0%,#5A2FA3 100%)',borderRadius:'16px',color:'#fff',padding:'60px 24px',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'70vh',textAlign:'center'};
+const mid={background:'linear-gradient(160deg,#2A1250 0%,#1E0A40 100%)',borderRadius:'16px',color:'#fff',padding:'48px 24px',minHeight:'70vh'};
+const light={background:'#f0f4f8',borderRadius:'16px',padding:'40px 24px',minHeight:'70vh'};
+const btnOr={padding:'14px 32px',borderRadius:'50px',fontWeight:600,border:'none',cursor:'pointer',background:'#FF6B35',color:'#fff',fontSize:'.95rem'};
+const btnPu={padding:'14px 32px',borderRadius:'50px',fontWeight:600,border:'none',cursor:'pointer',background:'#5A2FA3',color:'#fff',fontSize:'.95rem'};
+const lab={fontSize:'.82rem',fontWeight:700,color:'#94a3b8',marginBottom:'6px',display:'block',textTransform:'uppercase',letterSpacing:'.05em'};
+const inp={width:'100%',padding:'12px',borderRadius:'8px',border:'1px solid rgba(255,255,255,.15)',background:'rgba(255,255,255,.06)',color:'#fff',fontFamily:'inherit',fontSize:'.95rem',marginBottom:'18px'};
+
+function Landing({go}){
+  return(
+    <div style={dark}>
+      {!WORKER_CONFIGURED&&(
+        <div style={{background:'rgba(251,191,36,.1)',border:'1px solid rgba(251,191,36,.3)',borderRadius:'10px',padding:'12px 18px',marginBottom:'24px',maxWidth:'520px',width:'100%',textAlign:'left'}}>
+          <div style={{fontWeight:700,fontSize:'.85rem',color:'#fbbf24',marginBottom:'4px'}}>⚙️ Configuration requise</div>
+          <div style={{fontSize:'.78rem',color:'rgba(255,255,255,.55)',lineHeight:1.6}}>
+            Déploie <code style={{background:'rgba(255,255,255,.1)',padding:'1px 5px',borderRadius:'3px',fontSize:'.75rem'}}>cloudflare-worker.js</code> sur Cloudflare Workers et mets à jour <code style={{background:'rgba(255,255,255,.1)',padding:'1px 5px',borderRadius:'3px',fontSize:'.75rem'}}>WORKER_URL</code> dans ce fichier.
+          </div>
+        </div>
+      )}
+      <div style={{fontSize:'3.5rem',marginBottom:'20px'}}>📄</div>
+      <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(1.6rem,4vw,2.4rem)',marginBottom:'16px',fontWeight:700}}>Générez votre CV Maximisé</h2>
+      <p style={{color:'rgba(255,255,255,.65)',lineHeight:1.7,maxWidth:'540px',marginBottom:'36px'}}>Importez votre CV existant ou remplissez le formulaire. L'IA optimise tout et génère un CV professionnel téléchargeable.</p>
+      <div style={{display:'flex',gap:'16px',flexWrap:'wrap',justifyContent:'center'}}>
+        <button style={btnOr} onClick={()=>go('import')}>📤 Importer mon CV</button>
+        <button style={btnPu} onClick={()=>go('manual')}>✍️ Saisir manuellement</button>
+      </div>
+      <p style={{color:'rgba(255,255,255,.3)',fontSize:'.78rem',marginTop:'28px'}}>Formats : PDF, Word (.docx), Texte (.txt)</p>
+    </div>
+  );
+}
+
+function ImportScreen({go,onGenerate}){
+  const[err,setErr]=React.useState('');
+  const[busy,setBusy]=React.useState(false);
+  const[info,setInfo]=React.useState('');
+  const fileRef=React.useRef();
+
+  async function handleFile(file){
+    if(!file)return;
+    setErr('');setInfo('');setBusy(true);
+    try{
+      const name=file.name.toLowerCase();
+      let text='';
+      if(name.endsWith('.pdf')){setInfo('Lecture du PDF...');text=await extractPDF(file);}
+      else if(name.endsWith('.docx')||name.endsWith('.doc')){setInfo('Lecture du Word...');text=await extractWord(file);}
+      else if(name.endsWith('.txt')){text=await file.text();}
+      else throw new Error('Format non supporté. Utilise PDF, Word ou .txt');
+      if(!text.trim())throw new Error('Fichier vide ou illisible.');
+      setInfo("Optimisation par l'IA...");
+      await onGenerate(text);
+    }catch(e){setErr('❌ '+e.message);setBusy(false);setInfo('');}
+  }
+
+  return(
+    <div style={mid}>
+      <div style={{maxWidth:'560px',margin:'0 auto',textAlign:'center'}}>
+        <button onClick={()=>go('landing')} style={{background:'none',border:'none',color:'rgba(255,255,255,.6)',cursor:'pointer',fontSize:'.9rem',marginBottom:'24px',display:'block'}}>← Retour</button>
+        <div style={{fontSize:'3rem',marginBottom:'16px'}}>📁</div>
+        <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'1.8rem',marginBottom:'16px',fontWeight:700}}>Importer votre CV</h2>
+        <p style={{color:'rgba(255,255,255,.55)',marginBottom:'32px',lineHeight:1.6}}>Formats acceptés : <strong style={{color:'#fff'}}>PDF, Word (.docx), Texte (.txt)</strong></p>
+        <input ref={fileRef} type="file" accept="*/*" style={{display:'none'}} onChange={e=>handleFile(e.target.files[0])}/>
+        <button disabled={busy} onClick={()=>fileRef.current?.click()} style={{...btnOr,width:'100%',justifyContent:'center',marginBottom:'16px',opacity:busy?0.7:1,fontSize:'1rem',padding:'16px'}}>
+          {busy?'⏳ Traitement...':'📁 Choisir un fichier'}
+        </button>
+        {info&&<p style={{color:'#a78bfa',marginTop:'12px',fontSize:'.9rem'}}>{info}</p>}
+        {err&&<p style={{color:'#fca5a5',marginTop:'12px',fontSize:'.9rem'}}>{err}</p>}
+        <p style={{color:'rgba(255,255,255,.3)',fontSize:'.75rem',marginTop:'20px'}}>Sur iPhone : appuie sur "Parcourir" dans le sélecteur pour accéder à tous tes fichiers</p>
+      </div>
+    </div>
+  );
+}
+
+function ManualScreen({go,onGenerate}){
+  const[f,setF]=React.useState({});
+  const[err,setErr]=React.useState('');
+  const[busy,setBusy]=React.useState(false);
+  const set=(k,v)=>setF(p=>({...p,[k]:v}));
+
+  async function submit(){
+    if(!f.nom?.trim()||!f.poste?.trim()){setErr('❌ Nom et poste sont obligatoires.');return;}
+    setErr('');setBusy(true);
+    const content=[`Poste recherché: ${f.poste||''}`,`Nom: ${f.nom||''}`,`Ville: ${f.ville||''}`,`Email: ${f.email||''}`,`Téléphone: ${f.tel||''}`,`LinkedIn: ${f.linkedin||''}`,`A propos: ${f.accroche||''}`,`Compétences: ${f.competences||''}`,`Langues: ${f.langues||''}`,`Expériences: ${f.experiences||''}`,`Formations: ${f.formations||''}`,`Centres d'interet: ${f.interets||''}`].join('\n');
+    try{await onGenerate(content);}
+    catch(e){setErr('❌ '+e.message);setBusy(false);}
+  }
+
+  const ta={...inp,minHeight:'80px',resize:'vertical'};
+
+  return(
+    <div style={{...mid,padding:'40px 24px'}}>
+      <div style={{maxWidth:'640px',margin:'0 auto'}}>
+        <button onClick={()=>go('landing')} style={{background:'none',border:'none',color:'rgba(255,255,255,.6)',cursor:'pointer',fontSize:'.9rem',marginBottom:'24px',display:'block'}}>← Retour</button>
+        <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'1.8rem',marginBottom:'8px',fontWeight:700}}>Vos informations</h2>
+        <p style={{color:'#94a3b8',marginBottom:'28px',lineHeight:1.6}}>L'IA optimisera la formulation. Soyez précis et honnête.</p>
+
+        <label style={lab}>Poste recherché *</label>
+        <input style={inp} placeholder="Ex: Chef de projet digital" value={f.poste||''} onChange={e=>set('poste',e.target.value)}/>
+
+        <label style={lab}>Nom complet *</label>
+        <input style={inp} placeholder="Prénom Nom" value={f.nom||''} onChange={e=>set('nom',e.target.value)}/>
+
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px'}}>
+          <div><label style={lab}>Ville + CP</label><input style={inp} placeholder="Paris 75001" value={f.ville||''} onChange={e=>set('ville',e.target.value)}/></div>
+          <div><label style={lab}>Téléphone</label><input style={inp} placeholder="+33 6 XX XX XX XX" value={f.tel||''} onChange={e=>set('tel',e.target.value)}/></div>
+        </div>
+
+        <label style={lab}>Email</label>
+        <input style={inp} placeholder="prenom.nom@gmail.com" value={f.email||''} onChange={e=>set('email',e.target.value)}/>
+
+        <label style={lab}>LinkedIn (optionnel)</label>
+        <input style={inp} placeholder="linkedin.com/in/votre-profil" value={f.linkedin||''} onChange={e=>set('linkedin',e.target.value)}/>
+
+        <label style={lab}>À propos de vous</label>
+        <textarea style={ta} placeholder="Qui vous êtes, ce que vous apportez, ce que vous cherchez..." value={f.accroche||''} onChange={e=>set('accroche',e.target.value)}/>
+
+        <label style={lab}>Compétences (une par ligne)</label>
+        <textarea style={ta} placeholder={"Gestion de projet\nAgilité Scrum\nExcel avancé"} value={f.competences||''} onChange={e=>set('competences',e.target.value)}/>
+
+        <label style={lab}>Langues</label>
+        <textarea style={{...ta,minHeight:'60px'}} placeholder={"Français — Langue maternelle\nAnglais — Courant C1"} value={f.langues||''} onChange={e=>set('langues',e.target.value)}/>
+
+        <label style={lab}>Expériences professionnelles</label>
+        <textarea style={{...ta,minHeight:'120px'}} placeholder={"Chef de projet, Entreprise X, Paris, 2020-2022\n- Mission et résultat chiffré\n\nConsultant, Entreprise Y, 2018-2020\n- Mission..."} value={f.experiences||''} onChange={e=>set('experiences',e.target.value)}/>
+
+        <label style={lab}>Formations</label>
+        <textarea style={ta} placeholder={"Master Management, IAE Paris, 2018\nLicence Économie, Université Lyon 2, 2016"} value={f.formations||''} onChange={e=>set('formations',e.target.value)}/>
+
+        <label style={lab}>Centres d'intérêt (optionnel)</label>
+        <textarea style={{...ta,minHeight:'60px'}} placeholder={"Ski — Niveau intermédiaire\nLecture — Essais économiques"} value={f.interets||''} onChange={e=>set('interets',e.target.value)}/>
+
+        {err&&<p style={{color:'#fca5a5',margin:'12px 0',fontSize:'.9rem'}}>{err}</p>}
+        <button onClick={submit} disabled={busy} style={{...btnOr,width:'100%',justifyContent:'center',marginTop:'8px',padding:'16px',fontSize:'1rem',opacity:busy?0.6:1,cursor:busy?'not-allowed':'pointer'}}>
+          {busy?'✨ Optimisation en cours...':'🚀 Générer mon CV'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function LoadingScreen(){
+  return(
+    <div style={{...dark,gap:'20px'}}>
+      <div style={{fontSize:'3rem',animation:'spin 2s linear infinite'}}>⚙️</div>
+      <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'1.8rem',fontWeight:700}}>L'IA optimise votre CV</h2>
+      <p style={{color:'rgba(255,255,255,.65)',lineHeight:1.7}}>Analyse, reformulation, structuration...<br/>Quelques secondes suffiront.</p>
+    </div>
+  );
+}
+
+function ResultScreen({data,go}){
+  function downloadPDF(){
+    const el=document.getElementById('cv-export');
+    if(!el)return;
+    html2pdf().set({margin:10,filename:(data.nom||'cv').replace(/\s+/g,'-').toLowerCase()+'-mysam.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{orientation:'portrait',unit:'mm',format:'a4'}}).from(el).save();
+  }
+  return(
+    <div style={light}>
+      <div style={{maxWidth:'860px',margin:'0 auto'}}>
+        <div style={{display:'flex',gap:'12px',marginBottom:'24px',flexWrap:'wrap'}}>
+          <button style={{padding:'10px 18px',background:'#fff',border:'1px solid #cbd5e1',borderRadius:'10px',fontWeight:600,cursor:'pointer',color:'#1A1030'}} onClick={()=>go('landing')}>← Nouveau CV</button>
+          <button style={{...btnOr,padding:'10px 24px'}} onClick={downloadPDF}>⬇ Télécharger PDF</button>
+        </div>
+        <div style={{background:'#e8f5e9',borderRadius:'10px',padding:'12px 16px',marginBottom:'24px',color:'#1b5e20',fontWeight:600,fontSize:'.9rem'}}>
+          ✅ CV généré avec succès ! Téléchargez-le en PDF.
+        </div>
+        <CVRender d={data}/>
+      </div>
+    </div>
+  );
+}
+
+function CVRender({d}){
+  const sec={marginBottom:'28px'};
+  const secT={fontSize:'1rem',fontWeight:700,color:'#3B1F6B',marginBottom:'12px',paddingBottom:'6px',borderBottom:'2px solid #EDE7FF'};
+  return(
+    <div id="cv-export" style={{background:'#fff',padding:'40px',borderRadius:'12px',boxShadow:'0 4px 24px rgba(59,31,107,.1)',fontFamily:"'Inter',sans-serif"}}>
+      <div style={{background:'linear-gradient(135deg,#3B1F6B 0%,#5A2FA3 100%)',color:'#fff',padding:'36px 40px',borderRadius:'8px',marginBottom:'32px',textAlign:'center'}}>
+        <div style={{fontSize:'1.4rem',fontWeight:700,opacity:.85,marginBottom:'6px',letterSpacing:'.05em',textTransform:'uppercase'}}>{d.poste_recherche||''}</div>
+        <div style={{fontSize:'2rem',fontWeight:800,marginBottom:'14px'}}>{d.nom||''}</div>
+        <div style={{fontSize:'.88rem',opacity:.8,display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>
+          {d.contact?.ville_cp&&<span>📍 {d.contact.ville_cp}</span>}
+          {d.contact?.email&&<span>✉️ {d.contact.email}</span>}
+          {d.contact?.telephone&&<span>📞 {d.contact.telephone}</span>}
+          {d.contact?.linkedin&&<span>🔗 {d.contact.linkedin}</span>}
+        </div>
+      </div>
+      {d.accroche&&<div style={sec}><div style={secT}>À propos</div><p style={{lineHeight:1.75,color:'#4A3870',fontSize:'.95rem'}}>{d.accroche}</p></div>}
+      {d.competences?.length>0&&<div style={sec}><div style={secT}>Compétences</div><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'12px'}}>{d.competences.map((cat,i)=><div key={i} style={{background:'#FAF9FF',borderRadius:'8px',padding:'12px 14px',border:'1px solid #E0D8F5'}}><div style={{fontWeight:700,color:'#5A2FA3',fontSize:'.82rem',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:'6px'}}>{cat.categorie}</div><div style={{color:'#4A3870',fontSize:'.88rem',lineHeight:1.6}}>{Array.isArray(cat.items)?cat.items.join(' · '):cat.items}</div></div>)}</div></div>}
+      {d.langues?.length>0&&<div style={sec}><div style={secT}>Langues</div><div style={{display:'flex',gap:'12px',flexWrap:'wrap'}}>{d.langues.map((l,i)=><div key={i} style={{background:'#EDE7FF',borderRadius:'50px',padding:'6px 16px',fontSize:'.88rem',color:'#3B1F6B',fontWeight:600}}>{l.langue} — {l.niveau}</div>)}</div></div>}
+      {d.experiences?.length>0&&<div style={sec}><div style={secT}>Expériences professionnelles</div>{d.experiences.map((exp,i)=><div key={i} style={{marginBottom:'20px',paddingLeft:'16px',borderLeft:'3px solid #EDE7FF'}}><div style={{fontWeight:700,color:'#1A1030',fontSize:'1rem',marginBottom:'2px'}}>{exp.titre}</div><div style={{color:'#5A2FA3',fontSize:'.88rem',marginBottom:'8px',fontWeight:500}}>{[exp.entreprise,exp.lieu,exp.dates].filter(Boolean).join(' · ')}</div>{Array.isArray(exp.bullets)&&exp.bullets.length>0&&<ul style={{margin:0,paddingLeft:'18px',color:'#4A3870',lineHeight:1.7,fontSize:'.9rem'}}>{exp.bullets.map((b,j)=><li key={j} style={{marginBottom:'4px'}}>{b}</li>)}</ul>}</div>)}</div>}
+      {d.formations?.length>0&&<div style={sec}><div style={secT}>Formations</div>{d.formations.map((form,i)=><div key={i} style={{marginBottom:'14px',paddingLeft:'16px',borderLeft:'3px solid #EDE7FF'}}><div style={{fontWeight:700,color:'#1A1030',marginBottom:'2px'}}>{form.diplome}</div><div style={{color:'#5A2FA3',fontSize:'.88rem',marginBottom:'4px',fontWeight:500}}>{[form.ecole,form.dates].filter(Boolean).join(' · ')}</div>{form.detail&&<div style={{color:'#4A3870',fontSize:'.88rem'}}>{form.detail}</div>}</div>)}</div>}
+      {d.interets?.length>0&&<div style={sec}><div style={secT}>Centres d'intérêt</div><div style={{display:'flex',gap:'12px',flexWrap:'wrap'}}>{d.interets.map((int,i)=><div key={i} style={{background:'#FAF9FF',border:'1px solid #E0D8F5',borderRadius:'8px',padding:'10px 14px',fontSize:'.88rem',color:'#4A3870'}}>{int.icone} <strong>{int.titre}</strong>{int.detail?` — ${int.detail}`:''}</div>)}</div></div>}
+    </div>
+  );
+}
+
+function ErrorScreen({msg,go}){
+  return(
+    <div style={{...dark,gap:'20px'}}>
+      <div style={{fontSize:'3rem'}}>⚠️</div>
+      <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'1.8rem',fontWeight:700}}>Oups !</h2>
+      <p style={{color:'#fca5a5',maxWidth:'480px',lineHeight:1.6}}>{msg}</p>
+      <button style={btnOr} onClick={()=>go('landing')}>Réessayer</button>
+    </div>
+  );
+}
+
+function App(){
+  const[screen,setScreen]=React.useState('landing');
+  const[cvData,setCvData]=React.useState(null);
+  const[errMsg,setErrMsg]=React.useState('');
+
+  async function generate(text){
+    setScreen('loading');
+    try{const data=await callWorker(text);setCvData(data);setScreen('result');}
+    catch(e){setErrMsg(e.message);setScreen('error');}
+  }
+
+  if(screen==='landing')return <Landing go={setScreen}/>;
+  if(screen==='import')return <ImportScreen go={setScreen} onGenerate={generate}/>;
+  if(screen==='manual')return <ManualScreen go={setScreen} onGenerate={generate}/>;
+  if(screen==='loading')return <LoadingScreen/>;
+  if(screen==='result')return <ResultScreen data={cvData} go={setScreen}/>;
+  if(screen==='error')return <ErrorScreen msg={errMsg} go={setScreen}/>;
+  return null;
+}
+
+ReactDOM.createRoot(document.getElementById('cv-app')).render(<App/>);
+</script>
+</body>
+</html>
